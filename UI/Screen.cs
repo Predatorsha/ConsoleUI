@@ -1,4 +1,5 @@
 ﻿using ConsoleUI.UI.Components;
+using ConsoleUI.UI.Components.Interfaces;
 
 namespace ConsoleUI.UI;
 
@@ -27,11 +28,13 @@ public class Screen : Container
     public void Listen(ConsoleKeyInfo keyInfo)
     {
         var key = keyInfo.Key;
+        var focusableComponents = GetFocusableComponents();
+        var focusableComponentsCount = focusableComponents.Count; 
         
-        if (key == ConsoleKey.Tab)
+        if (key == ConsoleKey.Tab || 
+            key == ConsoleKey.Enter && focusableComponentsCount > 1 && ActiveComponent != focusableComponents.Last() )
         {
-            var focusableComponents = GetFocusableComponents();
-            if (focusableComponents.Count == 0)
+            if (focusableComponentsCount == 0)
             {
                 return;
             }
@@ -44,7 +47,7 @@ public class Screen : Container
             
             var index = focusableComponents.IndexOf(ActiveComponent);
             
-            if (index + 1 == focusableComponents.Count || index == -1)
+            if (index + 1 == focusableComponentsCount || index == -1)
             {
                 ActiveComponent = focusableComponents[0];
                 return;

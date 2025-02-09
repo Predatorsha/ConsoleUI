@@ -7,7 +7,7 @@ public partial class Program
     private static void Main()
     {
         
-        var operationContainer = new OperationContainer();
+        var operationContainer = new OperationContainer(0, 0);
 
         var screen = new Screen { SubComponents = [operationContainer] };
         screen.Render();

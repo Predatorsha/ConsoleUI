@@ -1,4 +1,6 @@
-﻿namespace ConsoleUI.UI.Components;
+﻿using System.Text;
+
+namespace ConsoleUI.UI.Components;
 
 public class ArrayForm : Container
 {

@@ -1,8 +1,12 @@
-﻿namespace ConsoleUI.UI.Components;
+﻿using ConsoleUI.UI.Components.Interfaces;
+
+namespace ConsoleUI.UI.Components;
 
 public abstract class Container : IComponent
 {
-    public IComponent[] SubComponents { get; set; } = [];
+    private int Left { get; }
+    private int Top { get; }
+    public List<IComponent> SubComponents { get; set; } = [];
 
     public virtual void Render()
     {
