@@ -5,14 +5,31 @@ namespace ConsoleUI.UI;
 
 public class Screen : Container
 {
-    public IFocusableComponent? ActiveComponent { get; set; }
+    private IFocusableComponent? ActiveComponent { get; set; }
 
-    public override void Render()
+    public void Run()
+    {
+        Render();
+        
+        while (true)
+        {
+            var key = Console.ReadKey(true);
+            if (key.Key is ConsoleKey.Escape)
+            {
+                break;
+            }
+            
+            Listen(key);
+            Render();
+        }
+    }
+    
+    private void Render()
     {
         Console.Clear();
         var focusableComponents = GetFocusableComponents();
 
-        if (focusableComponents.Count >0 && ActiveComponent == null)
+        if (focusableComponents.Count > 0 && ActiveComponent == null)
         {
             ActiveComponent = focusableComponents[0];
         }
@@ -21,18 +38,19 @@ public class Screen : Container
         {
             focusableComponent.IsActive = focusableComponent == ActiveComponent;
         }
-        base.Render();
+        
+        base.Render(0, 0);
         ActiveComponent?.SetCursor();
     }
 
-    public void Listen(ConsoleKeyInfo keyInfo)
+    private void Listen(ConsoleKeyInfo keyInfo)
     {
         var key = keyInfo.Key;
         var focusableComponents = GetFocusableComponents();
         var focusableComponentsCount = focusableComponents.Count; 
         
         if (key == ConsoleKey.Tab || 
-            key == ConsoleKey.Enter && focusableComponentsCount > 1 && ActiveComponent != focusableComponents.Last() )
+            key == ConsoleKey.Enter && focusableComponentsCount > 1 && ActiveComponent != focusableComponents.Last())
         {
             if (focusableComponentsCount == 0)
             {

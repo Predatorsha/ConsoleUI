@@ -2,8 +2,6 @@
 
 public class MNForm : Container
 {
-    private int Left { get; }
-    private int Top { get; }
     private Numberbox MNumberbox { get; }
     private Numberbox NNumberbox { get; }
     private Label AttentionLabel { get; set; }
@@ -11,19 +9,19 @@ public class MNForm : Container
     public int M { get; private set; }
     public int N { get; private set; }
 
-    public event EventHandler Submit;
+    public event EventHandler? Submit;
 
     public MNForm(int left, int top)
     {
         Left = left;
         Top = top;
         
-        AttentionLabel = new Label(Left, Top, "");
-        var mLabel = new Label(Left, Top + 2, "Введите m = ");
-        var nLabel = new Label(Left, Top + 4, "Введите n = ");
+        AttentionLabel = new Label(0, 0, "");
+        var mLabel = new Label(0, 2, "Введите m = ");
+        var nLabel = new Label(0, 4, "Введите n = ");
 
-        MNumberbox = new Numberbox(Left + mLabel.Width, Top + 2, true);
-        NNumberbox = new Numberbox(Left + nLabel.Width, Top + 4, true);
+        MNumberbox = new Numberbox(mLabel.Width, 2, NumberConstraint.Positive);
+        NNumberbox = new Numberbox(nLabel.Width, 4, NumberConstraint.Positive);
 
         SubComponents =
         [
@@ -38,7 +36,7 @@ public class MNForm : Container
     private void NumberboxOnEnter(object? sender, EventArgs e)
     {
         (M, N) = Validate();
-        Submit(this, EventArgs.Empty);
+        Submit?.Invoke(this, EventArgs.Empty);
     }
 
     private (int m, int n) Validate()
@@ -67,7 +65,7 @@ public class MNForm : Container
             var numberOfArrayElements = int.Parse(parameter);
             if (numberOfArrayElements is < 0 or > 200)
             {
-                AttentionLabel.Text = $"{{{parameterName}}} должен быть в диапозоне от 0 до 200";;
+                AttentionLabel.Text = $"{{{parameterName}}} должен быть в диапозоне от 0 до 200";
                 continue;
             }
             

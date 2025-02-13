@@ -2,17 +2,16 @@
 
 public class OperationContainer : Container
 {
-    private int Left { get; }
-    private int Top { get; }
     private IService Service { get; }
     private MNForm MNForm { get; }
     
-    public OperationContainer(int left, int top)
+    public OperationContainer(int left, int top, IService service)
     {
+        Service = service;
         Left = left;
         Top = top;
         
-        MNForm = new MNForm(Left, Top);
+        MNForm = new MNForm(0, 0);
         
         SubComponents = [MNForm];
         

@@ -9,7 +9,7 @@ public class Numberbox : IFocusableComponent
     
     private int Left { get; }
     private int Top { get; }
-    private bool IsPositive { get; set; }
+    private NumberConstraint NumberConstraint { get; set; }
     private int MaxLenght => 12;
     private int CursorPosition { get; set; }
     private StringBuilder SB { get; set; } = new();
@@ -17,18 +17,18 @@ public class Numberbox : IFocusableComponent
     public int Width => Value.Length + 1;
     public string Value => SB.ToString();
 
-    public event EventHandler Enter;
+    public event EventHandler? Enter;
     
-    public Numberbox(int left, int top, bool isPositive)
+    public Numberbox(int left, int top, NumberConstraint numberConstraint)
     {
         Left = left;
         Top = top;
-        IsPositive = isPositive;
+        NumberConstraint = numberConstraint;
     }
 
-    public void Render()
+    public void Render(int parentLeft, int parentTop)
     {
-        Console.SetCursorPosition(Left, Top);
+        Console.SetCursorPosition(Left + parentLeft, Top + parentTop);
 
         if (IsActive)
         {
@@ -76,7 +76,7 @@ public class Numberbox : IFocusableComponent
                 CursorPosition -= 1;
                 break;
             
-            case ConsoleKey.OemMinus when IsPositive:
+            case ConsoleKey.OemMinus when NumberConstraint.IsPositive():
             case ConsoleKey.OemMinus when CursorPosition != 0:
                 return;
             case ConsoleKey.OemMinus:

@@ -6,22 +6,11 @@ public partial class Program
 {
     private static void Main()
     {
-        
-        var operationContainer = new OperationContainer(0, 0);
+        var service = new Service();
+        var operationContainer = new OperationContainer(0, 0, service);
 
         var screen = new Screen { SubComponents = [operationContainer] };
-        screen.Render();
         
-        while (true)
-        {
-            var key = Console.ReadKey(true);
-            if (key.Key is ConsoleKey.Escape)
-            {
-                break;
-            }
-            
-            screen.Listen(key);
-            screen.Render();
-        }
+        screen.Run();
     }
 }

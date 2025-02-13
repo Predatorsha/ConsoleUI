@@ -2,5 +2,5 @@
 
 public interface IComponent
 {
-    public void Render();
+    public void Render(int parentLeft, int parentTop);
 }

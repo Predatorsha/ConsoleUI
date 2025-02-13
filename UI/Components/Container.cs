@@ -4,15 +4,16 @@ namespace ConsoleUI.UI.Components;
 
 public abstract class Container : IComponent
 {
-    private int Left { get; }
-    private int Top { get; }
     public List<IComponent> SubComponents { get; set; } = [];
 
-    public virtual void Render()
+    protected int Left { get; set; }
+    protected int Top { get; set; }
+
+    public virtual void Render(int parentLeft, int parentTop)
     {
         foreach (var component in SubComponents)
         {
-            component.Render();
+            component.Render(Left + parentLeft, Top + parentTop);
         }
     }
 

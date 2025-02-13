@@ -4,26 +4,23 @@ namespace ConsoleUI.UI.Components;
 
 public class ArrayBox : Container
 {
-    private int Left { get; }
-    private int Top { get; }
-    private readonly int M;
-    private readonly int N;
+    private readonly int m;
+    private readonly int n;
     private StringBuilder SB { get; set; } = new();
 
     public ArrayBox(int left, int top, int m, int n)
     {
+        this.m = m;
+        this.n = n;
         Left = left;
         Top = top;
-        
-        M = m;
-        N = n;
         
         var starLabel = new Label(Left, Top, "[");
         SubComponents.Add(starLabel);
         
         var lengthOfArrayBox = starLabel.Width;
 
-        for (var i = 0; i < M; i++)
+        for (var i = 0; i < m; i++)
         {
             var numberBox = new Numberbox(lengthOfArrayBox, Top, false);
             SubComponents.Add(numberBox);
@@ -34,12 +31,12 @@ public class ArrayBox : Container
             lengthOfArrayBox += numberBox.Width + label.Width;
         }
 
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < n; i++)
         {
             var label = new Label(lengthOfArrayBox, Top, "0");
             SubComponents.Add(label);
             
-            if (i != N - 1)
+            if (i != n - 1)
             {
                 var commaLabel = new Label(lengthOfArrayBox, Top, ", ");
                 SubComponents.Add(commaLabel);
@@ -52,10 +49,20 @@ public class ArrayBox : Container
 
     public override void Render()
     {
+        var lengthOfArrayBox = 0;
+        
         for (var i = 1; i < SubComponents.Count; i++)
         {
-             var numberBox = (Numberbox)SubComponents[i];
-             numberBox
+            if (SubComponents[i] is Numberbox numberBox)
+            {
+                numberBox
+                lengthOfArrayBox += numberBox.Width;
+            }
+
+            var numberBox = (Numberbox)SubComponents[i];
+             
+             if
+             
             var label = new Label(LengthOfArrayBox, 0, ",");
             SubComponents.Add(label);
             
