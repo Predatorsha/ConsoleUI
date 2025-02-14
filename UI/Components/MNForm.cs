@@ -1,15 +1,17 @@
-﻿namespace ConsoleUI.UI.Components;
+﻿using ConsoleUI.UI.Components.Infrastructure;
+
+namespace ConsoleUI.UI.Components;
 
 public class MNForm : Container
 {
     private Numberbox MNumberbox { get; }
     private Numberbox NNumberbox { get; }
-    private Label AttentionLabel { get; set; }
+    private Label AttentionLabel { get; }
+    private int M { get; set; }
+    private int N { get; set; }
 
-    public int M { get; private set; }
-    public int N { get; private set; }
-
-    public event EventHandler? Submit;
+    public delegate void SubmitMNEventHandler(int m, int n);
+    public event SubmitMNEventHandler? Submit;
 
     public MNForm(int left, int top)
     {
@@ -35,41 +37,35 @@ public class MNForm : Container
 
     private void NumberboxOnEnter(object? sender, EventArgs e)
     {
-        (M, N) = Validate();
-        Submit?.Invoke(this, EventArgs.Empty);
+        M = int.Parse(MNumberbox.Value);
+        N = int.Parse(MNumberbox.Value);
+
+        if (!ValidateNumberOfArrayElements(M, "m") || !ValidateNumberOfArrayElements(N, "n")) return;
+        if (!Validate()) return;
+        
+        Submit?.Invoke(M, N);
+    }
+    
+    private bool ValidateNumberOfArrayElements(int parameter, string parameterName)
+    {
+        if (parameter is < 0 or > 200)
+        {
+            AttentionLabel.Text = $"{{{parameterName}}} должен быть в диапозоне от 0 до 200";
+            return false;
+        }
+            
+        return true;
     }
 
-    private (int m, int n) Validate()
+    private bool Validate()
     {
-        while (true)
+        var sum = M + N;
+        if (sum is < 1 or > 200)
         {
-            var m = GetValidNumberOfArrayElementsInput(MNumberbox.Value, "m");
-            
-            var n = GetValidNumberOfArrayElementsInput(NNumberbox.Value, "n");
-            
-            var sum = m + n;
-            if (sum is < 1 or > 200)
-            {
-                AttentionLabel.Text = "Сумма m и n должна быть в диапозоне от 1 до 200";
-                continue;
-            }
-            
-            return (m, n);
+            AttentionLabel.Text = "Сумма m и n должна быть в диапозоне от 1 до 200";
+            return false;
         }
-    }
-
-    private int GetValidNumberOfArrayElementsInput(string parameter, string parameterName)
-    {
-        while (true)
-        {
-            var numberOfArrayElements = int.Parse(parameter);
-            if (numberOfArrayElements is < 0 or > 200)
-            {
-                AttentionLabel.Text = $"{{{parameterName}}} должен быть в диапозоне от 0 до 200";
-                continue;
-            }
             
-            return numberOfArrayElements;
-        }
+        return true;
     }
 }

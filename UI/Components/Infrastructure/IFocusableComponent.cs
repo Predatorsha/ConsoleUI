@@ -1,6 +1,6 @@
-﻿namespace ConsoleUI.UI.Components.Interfaces;
+﻿namespace ConsoleUI.UI.Components.Infrastructure;
 
-public interface IFocusableComponent : IComponent
+public interface IFocusableComponent
 {
     bool IsActive { get; set; }
     

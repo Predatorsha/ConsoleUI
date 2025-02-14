@@ -1,15 +1,12 @@
-﻿using ConsoleUI.UI.Components.Interfaces;
+﻿using ConsoleUI.UI.Components.Infrastructure;
 
 namespace ConsoleUI.UI.Components;
 
-public abstract class Container : IComponent
+public abstract class Container : Component
 {
-    public List<IComponent> SubComponents { get; set; } = [];
-
-    protected int Left { get; set; }
-    protected int Top { get; set; }
-
-    public virtual void Render(int parentLeft, int parentTop)
+    public List<Component> SubComponents { get; init; } = [];
+    
+    public override void Render(int parentLeft, int parentTop)
     {
         foreach (var component in SubComponents)
         {
@@ -17,7 +14,7 @@ public abstract class Container : IComponent
         }
     }
 
-    public List<IFocusableComponent> GetFocusableComponents()
+    protected List<IFocusableComponent> GetFocusableComponents()
     {
         var focusableComponents = new List<IFocusableComponent>();
         foreach (var subComponent in SubComponents)

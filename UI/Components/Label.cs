@@ -1,12 +1,9 @@
-﻿using ConsoleUI.UI.Components.Interfaces;
+﻿using ConsoleUI.UI.Components.Infrastructure;
 
 namespace ConsoleUI.UI.Components;
 
-public class Label : IComponent
+public class Label : Component, IHasWidth
 {
-    private int Left { get; }
-    private int Top { get; }
-    
     public string Text { get; set; }
     public int Width => Text.Length;
 
@@ -17,7 +14,7 @@ public class Label : IComponent
         Text = text;
     }
 
-    public void Render(int parentLeft, int parentTop)
+    public override void Render(int parentLeft, int parentTop)
     {
         Console.SetCursorPosition(Left + parentLeft, Top + parentTop);
         Console.Write(Text);

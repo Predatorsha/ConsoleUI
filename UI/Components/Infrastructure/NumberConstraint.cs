@@ -1,4 +1,4 @@
-﻿namespace ConsoleUI.UI.Components;
+﻿namespace ConsoleUI.UI.Components.Infrastructure;
 
 public enum NumberConstraint
 {

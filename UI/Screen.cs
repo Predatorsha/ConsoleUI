@@ -1,5 +1,5 @@
 ﻿using ConsoleUI.UI.Components;
-using ConsoleUI.UI.Components.Interfaces;
+using ConsoleUI.UI.Components.Infrastructure;
 
 namespace ConsoleUI.UI;
 

@@ -1,23 +1,20 @@
 ﻿using System.Text;
-using ConsoleUI.UI.Components.Interfaces;
+using ConsoleUI.UI.Components.Infrastructure;
 
 namespace ConsoleUI.UI.Components;
 
-public class Numberbox : IFocusableComponent 
+public class Numberbox : Component, IFocusableComponent 
 {
     public bool IsActive { get; set; }
+    public string Value => SB.ToString();
+    public int Width => Value.Length;
+
+    public event EventHandler? Enter;
     
-    private int Left { get; }
-    private int Top { get; }
     private NumberConstraint NumberConstraint { get; set; }
     private int MaxLenght => 12;
     private int CursorPosition { get; set; }
-    private StringBuilder SB { get; set; } = new();
-
-    public int Width => Value.Length + 1;
-    public string Value => SB.ToString();
-
-    public event EventHandler? Enter;
+    private StringBuilder SB { get; } = new();
     
     public Numberbox(int left, int top, NumberConstraint numberConstraint)
     {
@@ -26,7 +23,7 @@ public class Numberbox : IFocusableComponent
         NumberConstraint = numberConstraint;
     }
 
-    public void Render(int parentLeft, int parentTop)
+    public override void Render(int parentLeft, int parentTop)
     {
         Console.SetCursorPosition(Left + parentLeft, Top + parentTop);
 
@@ -36,10 +33,9 @@ public class Numberbox : IFocusableComponent
         }
 
         Console.Write(SB.ToString());
-        Console.Write(new string(" "));
         Console.ResetColor();
     }
-    
+
     public void SetCursor()
     {
         Console.SetCursorPosition(Left + CursorPosition, Top);
@@ -98,7 +94,7 @@ public class Numberbox : IFocusableComponent
 
         if (key is ConsoleKey.Enter)
         {
-            Enter(this, EventArgs.Empty);
+            Enter?.Invoke(this, EventArgs.Empty);
         }
     }
 }
