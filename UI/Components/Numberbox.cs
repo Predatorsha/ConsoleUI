@@ -6,8 +6,8 @@ namespace ConsoleUI.UI.Components;
 public class Numberbox : Component, IFocusableComponent 
 {
     public bool IsActive { get; set; }
-    public string Value => SB.ToString();
-    public int Width => Value.Length;
+    public double Value  { get; private set; }
+    public int Width { get; private set; }
 
     public event EventHandler? Enter;
     
@@ -94,6 +94,11 @@ public class Numberbox : Component, IFocusableComponent
 
         if (key is ConsoleKey.Enter)
         {
+            var result = SB.ToString();
+            
+            Width = result.Length;
+            Value = double.Parse(result);
+            
             Enter?.Invoke(this, EventArgs.Empty);
         }
     }

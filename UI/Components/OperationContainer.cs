@@ -18,7 +18,7 @@ public class OperationContainer : Container
         MNForm.Submit += MNFormOnSubmit;
     }
 
-    private void MNFormOnSubmit(int m, int n)
+    private void MNFormOnSubmit(double m, double n)
     {
         //var result = Service.Merge(MNForm.M, MNForm.N);
     }

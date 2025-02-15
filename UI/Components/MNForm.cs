@@ -4,14 +4,14 @@ namespace ConsoleUI.UI.Components;
 
 public class MNForm : Container
 {
+    public delegate void SubmitMNFormEventHandler(double m, double n);
+    public event SubmitMNFormEventHandler? Submit;
+    
     private Numberbox MNumberbox { get; }
     private Numberbox NNumberbox { get; }
     private Label AttentionLabel { get; }
-    private int M { get; set; }
-    private int N { get; set; }
-
-    public delegate void SubmitMNEventHandler(int m, int n);
-    public event SubmitMNEventHandler? Submit;
+    private double M { get; set; }
+    private double N { get; set; }
 
     public MNForm(int left, int top)
     {
@@ -37,8 +37,8 @@ public class MNForm : Container
 
     private void NumberboxOnEnter(object? sender, EventArgs e)
     {
-        M = int.Parse(MNumberbox.Value);
-        N = int.Parse(MNumberbox.Value);
+        M = MNumberbox.Value;
+        N = MNumberbox.Value;
 
         if (!ValidateNumberOfArrayElements(M, "m") || !ValidateNumberOfArrayElements(N, "n")) return;
         if (!Validate()) return;
@@ -46,7 +46,7 @@ public class MNForm : Container
         Submit?.Invoke(M, N);
     }
     
-    private bool ValidateNumberOfArrayElements(int parameter, string parameterName)
+    private bool ValidateNumberOfArrayElements(double parameter, string parameterName)
     {
         if (parameter is < 0 or > 200)
         {
